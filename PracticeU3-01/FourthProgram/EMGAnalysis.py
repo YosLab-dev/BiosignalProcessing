@@ -121,12 +121,3 @@ plt.ylabel('Amplitude')
 plt.savefig("MyopathyN.png", dpi = 600)
 plt.show()
 
-
-"""
-
-plt.rcParams["figure.figsize"] = (8, 6)
-plt.plot(x, y)
-plt.title("y=mx+c")
-plt.xlabel('x-axis')
-plt.ylabel('y-axis')
-"""
