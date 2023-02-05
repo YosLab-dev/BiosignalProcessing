@@ -84,7 +84,6 @@ def writingXLSX(signal,name):
     dataExc = pd.ExcelWriter(str(name)+".xlsx")
     data.to_excel(dataExc, sheet_name = str(name))
     dataExc.save()
-    return data
 
 #Reading the file .mat
 matFile = loadmat('ECGValues.mat')
@@ -94,6 +93,9 @@ ARR10sec = np.zeros((96, 1280)) #This will store a 10 second sample of all insta
 CHF10sec = np.zeros((30, 1280))
 NSR10sec = np.zeros((36, 1280))
 char = np.zeros((10,12))
+ARR10secStd = np.zeros((96, 1280))
+CHF10secStd = np.zeros((30, 1280))
+NSR10secStd = np.zeros((36, 1280))
 
 
 #Separating the channel between the three classes
@@ -113,19 +115,47 @@ getSample(NSR10sec, NSR, 2499, 3779)
 getSample(CHF10sec, CHF, 999, 2279)
 
 parametersExtration(ARR10sec, char)
-dfARR = writingXLSX(char,"ARRParameters")
+writingXLSX(char,"ARRParameters")
 
-#parametersExtration(NSR10sec, char)
-#writingXLSX(char,"NSRParameters")
+parametersExtration(NSR10sec, char)
+writingXLSX(char,"NSRParameters")
 
-#parametersExtration(CHF10sec, char)
-#writingXLSX(char,"ACHFParameters")
+parametersExtration(CHF10sec, char)
+writingXLSX(char,"CHFParameters")
 
 #showInstances(vARR, ARR, 0, 3600, 65536, "MIT-BIH Arrhythmia Database")
 #showInstances(vNSR, NSR, 0, 3600, 65536, "MIT-BIH Normal Sinus Rhythm Database")
 #showInstances(vCHF, CHF, 0, 3600, 65536, "BIDMC Congestive Heart Failure Database")
 
 #showInstances(vCHF, CHF10sec, 999, 1009, 1280, "BIDMC Congestive Heart Failure Sample")
-#showInstances(vARR, ARR10sec, 1499, 2779, 1280, "MIT-BIH Arrhythmia Sample")
-#showInstances(vNSR, NSR10sec, 2499, 3779, 1280, "MIT-BIH Normal Sinus Rhythm Sample")
+#showInstances(vARR, ARR10sec, 1499, 1509, 1280, "MIT-BIH Arrhythmia Sample")
+#showInstances(vNSR, NSR10sec, 2499, 2509, 1280, "MIT-BIH Normal Sinus Rhythm Sample")
 
+
+dfARR = pd.read_excel("ARRParameters.xlsx")
+dfNSR = pd.read_excel("NSRParameters.xlsx")
+dfCHF = pd.read_excel("CHFParameters.xlsx")
+
+plt.title("RMS comparison")
+plt.grid(linewidth = 0.3)
+plt.hist(dfNSR['RMS'], bins = 7, cumulative = False, density = True, label = "NSR")
+plt.hist(dfARR['RMS'], bins = 7, cumulative = False, density = True, label = "ARR")
+plt.hist(dfCHF['RMS'], bins = 7, cumulative = False, density = True, label = "CHF")
+plt.legend()
+plt.show()
+
+plt.title("ZCR comparison")
+plt.grid(linewidth = 0.3)
+plt.hist(dfARR['ZCR'], bins = 7, cumulative = False, density = True, label = "ARR")
+plt.hist(dfNSR['ZCR'], bins = 7, cumulative = False, density = True, label = "NSR")
+plt.hist(dfCHF['ZCR'], bins = 7, cumulative = False, density = True, label = "CHF")
+plt.legend()
+plt.show()
+
+plt.title("MCR comparison")
+plt.grid(linewidth = 0.3)
+plt.hist(dfARR['MCR'], bins = 7, cumulative = False, density = True, label = "ARR")
+plt.hist(dfNSR['MCR'], bins = 7, cumulative = False, density = True, label = "NSR")
+plt.hist(dfCHF['MCR'], bins = 7, cumulative = False, density = True, label = "CHF")
+plt.legend()
+plt.show()
