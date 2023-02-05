@@ -43,7 +43,7 @@ def parametersExtration(signal, char):
         char[i,j] = signalMean
         j = j + 1
 
-        signalRMS = np.sqrt(np.mean(signal ** 2))
+        signalRMS = np.sqrt(np.mean(signal[i] ** 2))
         char[i,j] = signalRMS
         j = j + 1
 
