@@ -15,9 +15,34 @@ def getTWE_IWE(vector, signal, results):
     j = 0
     row = 0
     for l in vector:
-        [cA1, cD1, cD2, cD3, cD4, cD5, cD6, cD7, cD8, cD9, cD10,
-         cD11, cD12, cD13, cD14, cD15, cD16, cD17, cD18, cD19, cD20,
-         cD21, cD22, cD23, cD24, cD25] = pywt.wavedec(signal[l], 'db4', level=25)
+        [cA1, cD1, cD2, cD3, cD4, cD5, cD6, cD7, cD8] = pywt.wavedec(signal[l], 'db4', level=8)
+        plt.subplot(4,1,1)
+        plt.title("Discrete Wavelet Transform coefficients at each level for the channel:"+str(l))
+        plt.stem(cD1, linefmt='tomato')
+        plt.stem(cD2, linefmt='darkorange')
+        plt.legend(['Level 1', 'Level 2'])
+        plt.xlabel('Coefficients')
+        plt.ylabel('Amplitude')
+        plt.subplot(4, 1, 2)
+        plt.stem(cD3, linefmt='yellowgreen')
+        plt.stem(cD4, linefmt='turquoise')
+        plt.legend(['Level 3', 'Level 4'])
+        plt.xlabel('Coefficients')
+        plt.ylabel('Amplitude')
+        plt.subplot(4, 1, 3)
+        plt.stem(cD5, linefmt='dodgerblue')
+        plt.stem(cD6, linefmt='slateblue')
+        plt.legend(['Level 5', 'Level 6'])
+        plt.xlabel('Coefficients')
+        plt.ylabel('Amplitude')
+        plt.subplot(4, 1, 4)
+        plt.stem(cD7, linefmt='darkmagenta')
+        plt.stem(cD8, linefmt='deeppink')
+        plt.legend(['Level 7', 'Level 8'])
+        plt.xlabel('Coefficients')
+        plt.ylabel('Amplitude')
+        plt.tight_layout()
+        plt.show()
         getStats(cA1, results, row, 0)
         getStats(cD1, results, row, 6)
         getStats(cD2, results, row, 12)
@@ -27,29 +52,10 @@ def getTWE_IWE(vector, signal, results):
         getStats(cD6, results, row, 36)
         getStats(cD7, results, row, 42)
         getStats(cD8, results, row, 48)
-        getStats(cD9, results, row, 54)
-        getStats(cD10, results, row, 60)
-        getStats(cD11, results, row, 66)
-        getStats(cD12, results, row, 72)
-        getStats(cD13, results, row, 78)
-        getStats(cD14, results, row, 84)
-        getStats(cD15, results, row, 90)
-        getStats(cD16, results, row, 96)
-        getStats(cD17, results, row, 102)
-        getStats(cD18, results, row, 108)
-        getStats(cD19, results, row, 114)
-        getStats(cD20, results, row, 120)
-        getStats(cD16, results, row, 126)
-        getStats(cD17, results, row, 132)
-        getStats(cD18, results, row, 138)
-        getStats(cD19, results, row, 144)
-        getStats(cD20, results, row, 150)
         row += 1
 
 
-#    print(results)
-#cD21, cD22, cD23, cD24, cD25, cD26, cD27, cD28, cD29, cD30,
-        # cD31, cD32
+
 
 def getStats(coefficients, results, row, column):
     results[row, column] = np.mean(coefficients)
@@ -82,10 +88,10 @@ data = matFile['Data']  # Selecting only the variable that contains the channel 
 ARR10sec = np.zeros((96, 1280))  # This will store a 10 second sample of all instances
 CHF10sec = np.zeros((30, 1280))
 NSR10sec = np.zeros((36, 1280))
-ARRChar = np.zeros((10, 156))
-CHFChar = np.zeros((10, 156))
-NSRChar = np.zeros((10, 156))
-allvalues = np.zeros((30, 156))
+ARRChar = np.zeros((10, 54))
+CHFChar = np.zeros((10, 54))
+NSRChar = np.zeros((10, 54))
+allvalues = np.zeros((30, 54))
 
 # Separating the channel between the three classes
 ARR = data[0:96]  # MIT-BIH Arrhythmia Database
@@ -117,23 +123,7 @@ dataFrameValues = pd.DataFrame(allvalues, columns=[
     'Mean cD5', 'Std cD5', 'Min cD5', 'Max cD5', 'TWE cD5', 'IWE cD5',
     'Mean cD6', 'Std cD6', 'Min cD6', 'Max cD6', 'TWE cD6', 'IWE cD6',
     'Mean cD7', 'Std cD7', 'Min cD7', 'Max cD7', 'TWE cD7', 'IWE cD7',
-    'Mean cD8', 'Std cD8', 'Min cD8', 'Max cD8', 'TWE cD8', 'IWE cD8',
-    'Mean cD9', 'Std cD9', 'Min cD9', 'Max cD9', 'TWE cD9', 'IWE cD9',
-    'Mean cD10', 'Std cD10', 'Min cD10', 'Max cD10', 'TWE cD10', 'IWE cD10',
-    'Mean cD11', 'Std cD11', 'Min cD11', 'Max cD11', 'TWE cD11', 'IWE cD11',
-    'Mean cD12', 'Std cD12', 'Min cD12', 'Max cD12', 'TWE cD12', 'IWE cD12',
-    'Mean cD13', 'Std cD13', 'Min cD13', 'Max cD13', 'TWE cD13', 'IWE cD13',
-    'Mean cD14', 'Std cD14', 'Min cD14', 'Max cD14', 'TWE cD14', 'IWE cD14',
-    'Mean cD15', 'Std cD15', 'Min cD15', 'Max cD15', 'TWE cD15', 'IWE cD15',
-    'Mean cD16', 'Std cD16', 'Min cD16', 'Max cD16', 'TWE cD16', 'IWE cD16',
-    'Mean cD17', 'Std cD17', 'Min cD17', 'Max cD17', 'TWE cD17', 'IWE cD17',
-    'Mean cD18', 'Std cD18', 'Min cD18', 'Max cD18', 'TWE cD18', 'IWE cD18',
-    'Mean cD19', 'Std cD19', 'Min cD19', 'Max cD19', 'TWE cD19', 'IWE cD19',
-    'Mean cD20', 'Std cD20', 'Min cD20', 'Max cD20', 'TWE cD20', 'IWE cD20',
-    'Mean cD21', 'Std cD21', 'Min cD21', 'Max cD21', 'TWE cD21', 'IWE cD21',
-    'Mean cD22', 'Std cD22', 'Min cD22', 'Max cD22', 'TWE cD22', 'IWE cD22',
-    'Mean cD23', 'Std cD23', 'Min cD23', 'Max cD23', 'TWE cD23', 'IWE cD23',
-    'Mean cD24', 'Std cD24', 'Min cD24', 'Max cD24', 'TWE cD24', 'IWE cD24',
-    'Mean cD25', 'Std cD25', 'Min cD25', 'Max cD25', 'TWE cD25', 'IWE cD25'])
+    'Mean cD8', 'Std cD8', 'Min cD8', 'Max cD8', 'TWE cD8', 'IWE cD8'
+   ])
 
 dataFrameValues.to_csv("CharacteristicsCoeff.csv")
