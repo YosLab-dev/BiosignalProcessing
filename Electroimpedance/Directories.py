@@ -1,14 +1,15 @@
-import pandas as pd
 from pathlib import Path
+import os
 
-dFrame = pd.read_excel('Database.xlsx')
-pathD = dFrame['Path']
-vector = range(len(pathD))
+input_images_path = "\Images"
+filesNames = os.listdir(input_images_path)
+
+vector = range(len(filesNames))
 print(vector)
-root = "Preliminary Results\ "
+root = "Preliminary Results\\"
 
 for i in vector:
-    file = pathD[i]
+    file = filesNames[i]
     path = root + file
     print(path)
     directory = Path(path)
